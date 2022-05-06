@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import axios from "axios";
 
 const UploadFile = () => {
@@ -17,6 +18,11 @@ const UploadFile = () => {
       console.log("RESPONSE", res.data);
     });
   };
+
+  useEffect(() => {
+    console.log("RENDERED");
+  }, []);
+
   return (
     <>
       <label htmlFor="clipping-upload"> Upload the MyClippings.txt file</label>

@@ -1,12 +1,13 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
 const UploadFile = () => {
-  const sendClipping = (file) => {
-    console.log("FILE", file);
+  const [selectedFile, setSelectedFile] = useState();
+  const sendClipping = () => {
+    console.log("FILE", selectedFile);
 
     let formData = new FormData();
-    formData.append("clipping", file);
+    formData.append("clipping", selectedFile);
 
     const payload = {
       method: "POST",
@@ -14,7 +15,7 @@ const UploadFile = () => {
       data: formData,
     };
 
-    axios.post("http://localhost:8080/", payload).then((res) => {
+    axios.post("http://localhost:8080/", formData).then((res) => {
       console.log("RESPONSE", res.data);
     });
   };
@@ -26,13 +27,15 @@ const UploadFile = () => {
   return (
     <>
       <label htmlFor="clipping-upload"> Upload the MyClippings.txt file</label>
-      <input type="file" name="clipping" id="clipping-upload" />
       <input
-        type="submit"
-        onClick={(e) => {
-          sendClipping(e.target.files[0]);
+        type="file"
+        name="clipping"
+        id="clipping-upload"
+        onChange={(e) => {
+          setSelectedFile(e.target.files[0]);
         }}
       />
+      <button onClick={sendClipping}>Submit</button>
     </>
   );
 };

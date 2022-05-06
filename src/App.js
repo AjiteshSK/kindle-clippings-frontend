@@ -1,15 +1,17 @@
 import logo from "./logo.svg";
 import "./App.css";
 import UploadFile from "./Components/fileUpload";
-import { Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
   return (
     <>
-      <Routes>
-        <Route path="/" element={<UploadFile />} />
-        <Route path="your-clippings" />
-      </Routes>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<UploadFile />} />
+          <Route path="your-clippings" />
+        </Routes>
+      </BrowserRouter>
     </>
   );
 }

@@ -1,8 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import dataContext from "../store";
 
 const UploadFile = () => {
   const [selectedFile, setSelectedFile] = useState();
+  const { setRecievedData } = useContext(dataContext);
+  const navigate = useNavigate();
+
   const sendClipping = () => {
     console.log("FILE", selectedFile);
 
@@ -17,6 +22,8 @@ const UploadFile = () => {
 
     axios.post("http://localhost:8080/", formData).then((res) => {
       console.log("RESPONSE", res.data);
+      setRecievedData(res.data);
+      navigate("/your-clippings");
     });
   };
 

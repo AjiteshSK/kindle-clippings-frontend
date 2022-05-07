@@ -30,7 +30,7 @@ const VirtualizedList = ({ list, setSelectedValue }) => {
         width={360}
         itemSize={46}
         itemCount={list.length}
-        overscanCount={5}
+        overscanCount={5} 
       >
         {({ index, style }) => {
           return (

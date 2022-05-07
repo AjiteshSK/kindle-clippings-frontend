@@ -15,6 +15,8 @@ const ClippingsData = () => {
 
   const { recievedData } = useContext(dataContext);
 
+  let scrollToAuthor;
+
   useEffect(() => {
     if (recievedData) {
       const recievedAuthors = recievedData.map((data) => {
@@ -46,17 +48,32 @@ const ClippingsData = () => {
     });
 
     bookBySelectedAuthor = [...new Set(bookBySelectedAuthor)];
+    bookBySelectedAuthor.shift();
+
     const contentBySelectedAuthor = recievedData.map((data) => {
       if (data.author === selectedAuthor) {
         return data.content;
       }
     });
+
     setTitles(bookBySelectedAuthor);
     setContents(contentBySelectedAuthor);
   }, [selectedAuthor]);
 
+  useEffect(() => {
+    // ScrollToItem in Authors List. Need context.
+
+    let contentInSelectedBook = recievedData.map((data) => {
+      if (data.title === selectedTitle) {
+        return data.content;
+      }
+    });
+
+    setContents(contentInSelectedBook);
+  }, [selectedTitle]);
+
   if (!recievedData) {
-    return <>Upload a file here first</>;
+    return <>Upload a file first</>;
   }
 
   return (
@@ -65,7 +82,11 @@ const ClippingsData = () => {
         return <p>{author}</p>;
       })} */}
       <h4>Authors</h4>
-      <VirtualizedList list={authors} setSelectedValue={setSelectedAuthor} />
+      <VirtualizedList
+        list={authors}
+        setSelectedValue={setSelectedAuthor}
+        selectedTitle={selectedTitle}
+      />
       <br></br>
       <h4>Books</h4>
       {/* {titles.map((title) => {

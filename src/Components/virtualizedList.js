@@ -15,7 +15,14 @@ import { FixedSizeList } from "react-window";
 //   );
 // };
 
-const VirtualizedList = ({ list, setSelectedValue }) => {
+const VirtualizedList = ({ list, setSelectedValue, indexToScrollTo }) => {
+  console.log("list, indexToScrollTo", typeof list, typeof indexToScrollTo);
+  const listRef = React.createRef();
+  React.useEffect(() => {
+    if (indexToScrollTo && indexToScrollTo !== -1) {
+      listRef.current.scrollToItem(indexToScrollTo, "start");
+    }
+  });
   return (
     <Box
       sx={{
@@ -26,11 +33,12 @@ const VirtualizedList = ({ list, setSelectedValue }) => {
       }}
     >
       <FixedSizeList
+        ref={listRef}
         height={400}
         width={360}
         itemSize={46}
         itemCount={list.length}
-        overscanCount={5} 
+        overscanCount={5}
       >
         {({ index, style }) => {
           return (

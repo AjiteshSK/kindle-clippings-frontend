@@ -10,8 +10,7 @@ const ClippingsData = () => {
 
   const [selectedAuthor, setSelectedAuthor] = useState("");
   const [selectedTitle, setSelectedTitle] = useState("");
-
-  const navigate = useNavigate();
+  const [indexToScrollTo, setIndexToScrollTo] = useState(undefined);
 
   const { recievedData } = useContext(dataContext);
 
@@ -61,7 +60,28 @@ const ClippingsData = () => {
   }, [selectedAuthor]);
 
   useEffect(() => {
-    // ScrollToItem in Authors List. Need context.
+    // ScrollToItem in Authors List.
+    if (selectedTitle !== "") {
+      const selectedEntry = recievedData.find((data) => {
+        return data.title === selectedTitle;
+      });
+
+      console.log("selectedTitle", selectedEntry);
+
+      if (selectedEntry) {
+        const { author: authorOfSelectedTitle } = selectedEntry;
+
+        console.log("authorOfTitle", authorOfSelectedTitle);
+
+        const index = authors.findIndex(
+          (author) => author === authorOfSelectedTitle
+        );
+
+        console.log("INDEX", index);
+
+        setIndexToScrollTo(index);
+      }
+    }
 
     let contentInSelectedBook = recievedData.map((data) => {
       if (data.title === selectedTitle) {
@@ -85,7 +105,7 @@ const ClippingsData = () => {
       <VirtualizedList
         list={authors}
         setSelectedValue={setSelectedAuthor}
-        selectedTitle={selectedTitle}
+        indexToScrollTo={indexToScrollTo}
       />
       <br></br>
       <h4>Books</h4>
